@@ -28,7 +28,7 @@ public interface UserService {
 
 	//delete
 	
-	void delete(int userId);	
+	void deleteUser(int userId);	
 	
 	
 	
