@@ -3,6 +3,8 @@ package com.ecom.controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +31,7 @@ public class UserController {
 	//create user data
 	
 	@PostMapping("/")
-	public ResponseEntity<UserDto> create(@RequestBody UserDto userDto) {
+	public ResponseEntity<UserDto> create(@Valid @RequestBody UserDto userDto) {
 	
 		userDto.setCreateAt(new Date());
 		userDto.setActive(true);
@@ -42,7 +44,7 @@ public class UserController {
 	//update user
 	
 	@PutMapping("/{userId}")
-	public ResponseEntity<UserDto> updateUser(@RequestBody  UserDto userDto, @PathVariable int userId)
+	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody  UserDto userDto, @PathVariable int userId)
 	{
 		UserDto updateduser = this.userService.update(userDto, userId);
 		 return new ResponseEntity<UserDto>(updateduser, HttpStatus.OK);
