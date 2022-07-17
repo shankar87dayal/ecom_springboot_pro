@@ -2,9 +2,11 @@ package com.ecom.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,7 +15,7 @@ import javax.persistence.Table;
 public class Product {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int productId;
 	
 	@Column(name = "product_brand_name",length = 300,unique = true)
@@ -30,6 +32,9 @@ public class Product {
 	
 	private String imageName;
 
+	//@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Category category;
 
 	public Product(int productId, String productName, String productDesc, double productPrice, boolean stock,
 			boolean live, String imageName) {
@@ -92,6 +97,16 @@ public class Product {
 
 	public boolean isStock() {
 		return stock;
+	}
+
+
+	public Category getCategory() {
+		return category;
+	}
+
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 

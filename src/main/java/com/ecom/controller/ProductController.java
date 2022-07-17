@@ -13,23 +13,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecom.payload.ApiResonse;
 import com.ecom.payload.ProductDto;
+import com.ecom.payload.ProductResponse;
 import com.ecom.service.ProductService;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/")
 public class ProductController {
 
 	@Autowired
 	private ProductService productService;
 	
 	//For creating new Product
-		@PostMapping("/")
-		public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
-			ProductDto createdProduct = productService.createProduct(productDto);
+		@PostMapping("/categories/{categoryId}/products")
+		public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto, @PathVariable("categoryId") int categoryId) {
+			ProductDto createdProduct = productService.createProduct(productDto, categoryId);
 			System.out.println("product created");
 			return new ResponseEntity<ProductDto>(createdProduct,HttpStatus.CREATED);
 
@@ -47,10 +49,14 @@ public class ProductController {
 		
 		
 		//getting all products
-			@GetMapping("/")
-			public ResponseEntity<List<ProductDto>> getAll() {
-				List<ProductDto> allProducts = productService.getAll();
-				return new ResponseEntity<List<ProductDto>>(allProducts,HttpStatus.OK);
+			@GetMapping("/products")
+			public ResponseEntity<ProductResponse> getAll(
+					@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
+					@RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize
+					) {
+				
+				ProductResponse response = productService.getAll(pageNumber, pageSize);
+				return new ResponseEntity<ProductResponse>(response,HttpStatus.OK);
 			}
 		
 		//get single product
@@ -63,7 +69,7 @@ public class ProductController {
 		 * @return  product
 		 */
 		
-		@GetMapping("/{productId}")
+		@GetMapping("/products/{productId}")
 		public ResponseEntity<ProductDto> getProduct(@PathVariable  int productId) {
 
 			ProductDto productDto = this.productService.getproduct(productId);
@@ -85,7 +91,7 @@ public class ProductController {
 
 		
 		// update
-			@PutMapping("/{productId}")
+			@PutMapping("/products/{productId}")
 			public ResponseEntity<ProductDto> updateProduct(@PathVariable int productId, @RequestBody ProductDto np) {
 				ProductDto updatedProduct = productService.updateProduct(np, productId);
 				return  new ResponseEntity<ProductDto>(updatedProduct, HttpStatus.OK);
@@ -102,9 +108,19 @@ public class ProductController {
 		 * @return  "product is successfully Deleted !!"
 		 */
 		
-		@DeleteMapping("/{productId}")
+		@DeleteMapping("/products/{productId}")
 		public ResponseEntity<ApiResonse>  deleteProduct(@PathVariable  int productId) {
 			this.productService.deleteProduct(productId);
 			return new ResponseEntity<ApiResonse>(new ApiResonse("product is deleted successfully !!", true),HttpStatus.OK);
+		}
+		
+		// category wise get product
+		@GetMapping("/categories/{categoryId}/products")
+		public ResponseEntity<ProductResponse> getProductsOfCategory(@PathVariable int categoryId,
+				@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
+				@RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) {
+			ProductResponse listOfProducts = productService.getProductsByCategory(categoryId, pageNumber, pageSize);
+			return new ResponseEntity<ProductResponse>(listOfProducts, HttpStatus.CREATED);
+
 		}
 }

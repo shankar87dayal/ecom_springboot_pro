@@ -1,9 +1,15 @@
 package com.ecom.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,6 +22,9 @@ public class Category {
 	private int categoryId;
 	private String title;
 	private String categoryDesc;
+	
+	@OneToMany(mappedBy ="category" ,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private Set<Product> products=new HashSet<>();
 	
 	public Category(int categoryId, String title, String categoryDesc) {
 		super();
@@ -51,6 +60,14 @@ public class Category {
 
 	public void setCategoryDesc(String categoryDesc) {
 		this.categoryDesc = categoryDesc;
+	}
+
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
 	}
 	
 	

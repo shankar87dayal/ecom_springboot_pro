@@ -18,6 +18,8 @@ public class ProductDto {
 	
 	
 	private String imageName;
+	
+	private CategoryDto category;
 
 
 	public ProductDto(int productId, String productName, String productDesc, double productPrice, boolean stock,
@@ -107,6 +109,17 @@ public class ProductDto {
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
 	}
+
+
+	public CategoryDto getCategory() {
+		return category;
+	}
+
+
+	public void setCategory(CategoryDto category) {
+		this.category = category;
+	}
+
 	
 	
 }
