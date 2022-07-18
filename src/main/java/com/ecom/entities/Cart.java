@@ -1,11 +1,17 @@
 package com.ecom.entities;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,6 +22,15 @@ public class Cart {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private int cartId;
 	
+	@OneToOne
+	private User user;
+
+
+	@OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<CartItem> item=new HashSet<>();
+	
+	
+
 	private String items;
 	private String title;
 	private Date createdDate;
@@ -65,5 +80,20 @@ public class Cart {
 		this.createdDate = createdDate;
 	}
 	
+	public Set<CartItem> getItem() {
+		return item;
+	}
+
+	public void setItem(Set<CartItem> item) {
+		this.item = item;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 	
 }
