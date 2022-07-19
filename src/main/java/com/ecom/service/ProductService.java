@@ -9,7 +9,7 @@ public interface ProductService {
 	
 	public ProductDto createProduct(ProductDto productDto, int categoryId);
 	
-	public ProductResponse getAll(int pageNumber, int pageSize);
+	public ProductResponse getAll(int pageNumber, int pageSize , String sortby, String sortDir);
 	
 	public ProductDto getproduct(int productId);
 	
@@ -17,6 +17,6 @@ public interface ProductService {
 	
 	public void deleteProduct(int productId);
 
-	public ProductResponse getProductsByCategory(int categoryId,int pageNumber,int pageSize);
+	public ProductResponse getProductsByCategory(int categoryId,int pageNumber,int pageSize,String sortby, String sortDir);
 
 }

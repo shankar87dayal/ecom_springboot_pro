@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ecom.entities.Category;
@@ -42,9 +43,19 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductResponse getAll(int pageNumber, int pageSize) {
+	public ProductResponse getAll(int pageNumber, int pageSize, String sortby, String sortDir) {
 		
-		Pageable pageable= PageRequest.of(pageNumber, pageSize);
+		Sort sort = null;
+		
+		if(sortDir.trim().toLowerCase().equals("asc"))
+		{
+			sort = Sort.by(sortby).ascending();
+		}else
+		{
+			sort = Sort.by(sortby).descending();
+		}
+		
+		Pageable pageable= PageRequest.of(pageNumber, pageSize, sort);
 		
 		Page<Product> page = this.productRepository.findAll(pageable);
 		List<Product> all = page.getContent();
@@ -98,11 +109,21 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductResponse getProductsByCategory(int categoryId, int pageNumber, int pageSize) {
+	public ProductResponse getProductsByCategory(int categoryId, int pageNumber, int pageSize, String sortby, String sortDir) {
 		Category category = this.categoryRepository.findById(categoryId)
 				.orElseThrow(() -> new ResourceNotFoundException("not found this category !!"));
-				
-		Pageable pageable = PageRequest.of(pageNumber, pageSize);
+		
+       Sort sort = null;
+		
+		if(sortDir.trim().toLowerCase().equals("asc"))
+		{
+			sort = Sort.by(sortby).ascending();
+		}else
+		{
+			sort = Sort.by(sortby).descending();
+		}
+		
+		Pageable pageable = PageRequest.of(pageNumber, pageSize,sort);
 		Page<Product> page = this.productRepository.findByCategory(category, pageable);
 		List<Product> categories = page.getContent();
 		List<ProductDto> dtos = categories.stream().map((product) -> this.modelMapper.map(product, ProductDto.class)).collect(Collectors.toList());
