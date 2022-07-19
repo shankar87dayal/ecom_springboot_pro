@@ -52,7 +52,7 @@ public class ProductController {
 		//getting all products
 			@GetMapping("/products")
 			public ResponseEntity<ProductResponse> getAll(
-					@RequestParam(value = "pageNumber", defaultValue = AppConstants.page_number_string, required = false) int pageNumber,
+					@RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER_STRING, required = false) int pageNumber,
 					@RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE_STRING, required = false) int pageSize,
 					@RequestParam(value = "soryby", defaultValue = AppConstants.SORT_BY_STRING,required = false) String sortby,
 					@RequestParam(value = "sortDir", defaultValue = AppConstants.SORT_DIR_STRING,required = false)String sortDir
@@ -121,7 +121,7 @@ public class ProductController {
 		// category wise get product
 		@GetMapping("/categories/{categoryId}/products")
 		public ResponseEntity<ProductResponse> getProductsOfCategory(@PathVariable int categoryId,
-				@RequestParam(value = "pageNumber", defaultValue = AppConstants.page_number_string, required = false) int pageNumber,
+				@RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER_STRING, required = false) int pageNumber,
 				@RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE_STRING, required = false) int pageSize,
 				@RequestParam(value = "soryby", defaultValue = AppConstants.SORT_BY_STRING,required = false) String sortby,
 				@RequestParam(value = "sortDir", defaultValue = AppConstants.SORT_DIR_STRING,required = false)String sortDir
