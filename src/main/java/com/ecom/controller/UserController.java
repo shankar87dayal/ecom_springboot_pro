@@ -38,7 +38,7 @@ public class UserController {
 		
 		UserDto createduser = this.userService.create(userDto);
 		
-		return new ResponseEntity<>(createduser, HttpStatus.CREATED);
+		return new ResponseEntity<UserDto>(createduser, HttpStatus.CREATED);
 	}
 	
 	//update user

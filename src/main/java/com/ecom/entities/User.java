@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -18,7 +19,7 @@ import javax.persistence.Table;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
 	
 	@Column(nullable = false)
@@ -40,6 +41,9 @@ public class User {
 	private Date createAt;
 	
 	private boolean active;
+	
+	@OneToOne(mappedBy = "user")
+	private Cart cart;
 
 	public User(int userId, String name, String email, String password, String about, String address, String gender,
 			String phone, Date createAt, boolean active) {
@@ -139,6 +143,14 @@ public class User {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 	
 	
