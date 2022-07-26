@@ -21,7 +21,7 @@ public class CartItem {
 
 	private double totalProductPrice;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	private Cart cart;
 
 	public int getCardItemid() {
@@ -54,8 +54,8 @@ public class CartItem {
 		return totalProductPrice;
 	}
 
-	public void setTotalProductPrice(double totalProductPrice) {
-		this.totalProductPrice = totalProductPrice;
+	public void setTotalProductPrice() {
+		this.totalProductPrice = this.product.getProductPrice() * this.quantity;
 	}
 
 	public Cart getCart() {

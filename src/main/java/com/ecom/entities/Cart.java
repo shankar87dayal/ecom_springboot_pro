@@ -26,27 +26,11 @@ public class Cart {
 	private User user;
 
 
-	@OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<CartItem> item=new HashSet<>();
+	@OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,orphanRemoval = true)
+	private Set<CartItem> items=new HashSet<>();
 	
 	
 
-	private String items;
-	private String title;
-	private Date createdDate;
-	
-	public Cart(int cartId, String items, String title, Date createdDate) {
-		super();
-		this.cartId = cartId;
-		this.items = items;
-		this.title = title;
-		this.createdDate = createdDate;
-	}
-
-	public Cart() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	public int getCartId() {
 		return cartId;
@@ -56,36 +40,14 @@ public class Cart {
 		this.cartId = cartId;
 	}
 
-	public String getItems() {
+
+	public Set<CartItem> getItems() {
 		return items;
 	}
 
-	public void setItems(String items) {
+
+	public void setItems(Set<CartItem> items) {
 		this.items = items;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-	
-	public Set<CartItem> getItem() {
-		return item;
-	}
-
-	public void setItem(Set<CartItem> item) {
-		this.item = item;
 	}
 
 	public User getUser() {

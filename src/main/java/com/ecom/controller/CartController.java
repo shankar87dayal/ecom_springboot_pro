@@ -1,27 +1,27 @@
 package com.ecom.controller;
 
-import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecom.payload.ApiResonse;
 import com.ecom.payload.CartDto;
+import com.ecom.payload.ItemRequest;
 import com.ecom.service.CartService;
 
 @RestController
 @RequestMapping("/carts")
 public class CartController {
+	
+	
+	//after authentication the user is dynamic
+	String userName = "raushan@gmail.com"; 
 
 	@Autowired
 	private CartService cartService;
@@ -29,44 +29,25 @@ public class CartController {
 	   //create
 	
 	    @PostMapping("/")
-	    public ResponseEntity<CartDto> createCart(@RequestBody CartDto cartDto) 
+	    public ResponseEntity<CartDto> addItemToCart(@RequestBody ItemRequest request) 
 	    {
-	    	cartDto.setCreatedDate(new Date());
-	    	
-	    	CartDto createdcart = this.cartService.create(cartDto);
-	        return new ResponseEntity<CartDto>(createdcart, HttpStatus.CREATED);
-	    }
-	
-		//update
-		@PutMapping("/{cId}")
-	    public ResponseEntity<CartDto> updateCart(@RequestBody CartDto cartDto, @PathVariable int cId) 
-	    {
-	    	CartDto updatedcart = this.cartService.update(cartDto, cId);
-	        return new ResponseEntity<CartDto>(updatedcart, HttpStatus.OK);
+	    	CartDto cartDto = this.cartService.addItem(request, userName);
+	    	return  new ResponseEntity<CartDto>(cartDto,HttpStatus.OK);
 	    }
 	    
-		//getAll
-		@GetMapping("/")
-		public ResponseEntity<List<CartDto>> getCart()
-		{
-			List<CartDto> list = this.cartService.get();
-			return new ResponseEntity<List<CartDto>>(list, HttpStatus.OK);
-		}
-		
-		//get single
-		@GetMapping("/{cId}")
-		public ResponseEntity<CartDto> getCart( @PathVariable int cId) 
-	    {
-	    	CartDto cart = this.cartService.get(cId);
-	        return new ResponseEntity<CartDto>(cart, HttpStatus.OK);
+	    //get cart
+	    @GetMapping("/")
+	    public ResponseEntity<CartDto> getCart(){
+	    	CartDto cartDto = this.cartService.get(userName);
+	    	return new ResponseEntity<CartDto>(cartDto,HttpStatus.OK);
 	    }
-		
-		//delete
-		@DeleteMapping("/{cId}")
-		public ResponseEntity<ApiResonse> deleteCart( @PathVariable int cId) 
+	
+	    //remove item from cart
+	    @PostMapping("/{productId}")
+	    public ResponseEntity<CartDto> removeProductFromCart(@PathVariable int productId)
 	    {
-	    	this.cartService.delete(cId);
-	        return new ResponseEntity<ApiResonse>(new ApiResonse("cart Deleted Successfully", true), HttpStatus.OK);
+	    	CartDto cartDto = this.cartService.removeItem(userName, productId);
+	    	return new ResponseEntity<CartDto>(cartDto,HttpStatus.OK);
 	    }
 		
 }

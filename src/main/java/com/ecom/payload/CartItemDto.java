@@ -12,7 +12,6 @@ public class CartItemDto {
 
 	private double totalProductPrice;
 	
-	private CartDto cart;
 
 	public int getCardItemid() {
 		return cardItemid;
@@ -36,7 +35,7 @@ public class CartItemDto {
 	}
 
 	public void setTotalProductPrice(double totalProductPrice) {
-		this.totalProductPrice = totalProductPrice;
+		this.totalProductPrice = this.product.getProductPrice() * this.quantity;
 	}
 
 	public ProductDto getProduct() {
@@ -47,13 +46,6 @@ public class CartItemDto {
 		this.product = product;
 	}
 
-	public CartDto getCart() {
-		return cart;
-	}
-
-	public void setCart(CartDto cart) {
-		this.cart = cart;
-	}
 
 
 	

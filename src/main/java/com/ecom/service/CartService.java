@@ -3,25 +3,21 @@ package com.ecom.service;
 import java.util.List;
 
 import com.ecom.payload.CartDto;
+import com.ecom.payload.ItemRequest;
 
 public interface CartService {
 	
-	//create
-	CartDto create(CartDto cartDto); 
-	
-	//update
-	
-	CartDto update(CartDto cartDto, int cId); 
-	
-	//getAll
-	
-	List<CartDto> get();
-	
-	//get single
-	
-	CartDto get(int cId); 
-	
-	//delete
+	// add item to cart
+	/*
+	 * we will check the availability of card if cart is available then we will add
+	 * item to cart otherwise we will create a new card and add the item to it
+	 * 
+	 */
+		CartDto addItem(ItemRequest item, String userName);
 
-	void delete(int cId);
+		// get card of user
+		CartDto get(String userName);
+
+		// remove item from cart
+		CartDto removeItem(String userName, int productId);
 }
