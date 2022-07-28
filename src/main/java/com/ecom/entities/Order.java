@@ -1,12 +1,17 @@
 package com.ecom.entities;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,7 +22,10 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int orderId;
 	
-	@Column(nullable = false)
+	//PENDING
+	//DELEVERED
+	//CANCLLED
+	//
 	private String orderStatus;
 	
 	private String paymentStatus;
@@ -26,27 +34,17 @@ public class Order {
 	
 	private double totalAmount;
 	
-	@Column(nullable = false)
 	private String billingAddress;
 	
 	private Date orderDelivered;
+	
+	@OneToOne
+	private User user;
 
-	public Order(int orderId, String orderStatus, String paymentStatus, Date orderCreated, double totalAmount,
-			String billingAddress, Date orderDelivered) {
-		super();
-		this.orderId = orderId;
-		this.orderStatus = orderStatus;
-		this.paymentStatus = paymentStatus;
-		this.orderCreated = orderCreated;
-		this.totalAmount = totalAmount;
-		this.billingAddress = billingAddress;
-		this.orderDelivered = orderDelivered;
-	}
+	@OneToMany(mappedBy = "order",cascade =CascadeType.ALL)
+	private Set<OrderItem> items=new HashSet<>();
 
-	public Order() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	
 
 	public int getOrderId() {
 		return orderId;
@@ -80,6 +78,8 @@ public class Order {
 		this.orderCreated = orderCreated;
 	}
 
+	
+
 	public double getTotalAmount() {
 		return totalAmount;
 	}
@@ -103,7 +103,22 @@ public class Order {
 	public void setOrderDelivered(Date orderDelivered) {
 		this.orderDelivered = orderDelivered;
 	}
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Set<OrderItem> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<OrderItem> items) {
+		this.items = items;
+	}
 	
 	
 }

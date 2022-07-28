@@ -1,8 +1,10 @@
 package com.ecom.payload;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.validation.constraints.NotEmpty;
+
 
 
 public class OrderDto {
@@ -10,7 +12,6 @@ public class OrderDto {
 	
     private int orderId;
     
-	@NotEmpty
 	private String orderStatus;
 	
 	private String paymentStatus;
@@ -24,22 +25,9 @@ public class OrderDto {
 	
 	private Date orderDelivered;
 
-	public OrderDto(int orderId, String orderStatus, String paymentStatus, Date orderCreated, double totalAmount,
-			String billingAddress, Date orderDelivered) {
-		super();
-		this.orderId = orderId;
-		this.orderStatus = orderStatus;
-		this.paymentStatus = paymentStatus;
-		this.orderCreated = orderCreated;
-		this.totalAmount = totalAmount;
-		this.billingAddress = billingAddress;
-		this.orderDelivered = orderDelivered;
-	}
-
-	public OrderDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	private UserDto user;
+	
+	private Set<OrderItemDto> items=new HashSet<>();
 
 	public int getOrderId() {
 		return orderId;
@@ -73,6 +61,11 @@ public class OrderDto {
 		this.orderCreated = orderCreated;
 	}
 
+	
+
+	
+	
+
 	public double getTotalAmount() {
 		return totalAmount;
 	}
@@ -95,6 +88,22 @@ public class OrderDto {
 
 	public void setOrderDelivered(Date orderDelivered) {
 		this.orderDelivered = orderDelivered;
+	}
+
+	public UserDto getUser() {
+		return user;
+	}
+
+	public void setUser(UserDto user) {
+		this.user = user;
+	}
+
+	public Set<OrderItemDto> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<OrderItemDto> items) {
+		this.items = items;
 	}
 	
 	
