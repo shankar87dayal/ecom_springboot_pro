@@ -105,8 +105,10 @@ public class OrderServiceImpl implements OrderService{
 		Date orderDelivered = orderDto.getOrderDelivered();
 		order.setOrderStatus(orderStatus);
 		order.setPaymentStatus(paymentStatus);
-		order.setOrderDelivered(orderDelivered);
-		
+		if(order.getOrderStatus().equalsIgnoreCase("Done")) 
+			order.setOrderDelivered(new Date());
+		else
+			order.setOrderDelivered(null);
 		
 		Order updatedOrder = this.orderRepository.save(order);
 		

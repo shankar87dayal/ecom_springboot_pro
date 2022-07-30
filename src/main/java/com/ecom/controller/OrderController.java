@@ -46,7 +46,7 @@ public class OrderController {
 		public ResponseEntity<OrderResponse> get(
 				@RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER_STRING, required = false) int pageNumber,
 				@RequestParam(value = "pageSize", defaultValue =AppConstants.PAGE_SIZE_STRING, required = false) int pageSize,
-				@RequestParam(value = "soryby", defaultValue ="orderId",required = false) String sortby,
+				@RequestParam(value = "soryby", defaultValue =AppConstants.SORT_ORDER_BY_STRING,required = false) String sortby,
 				@RequestParam(value = "sortDir", defaultValue = AppConstants.SORT_DIR_STRING,required = false)String sortDir
 				
 				){
@@ -73,10 +73,7 @@ public class OrderController {
 		@PutMapping("/orders/{orderId}")
 		public ResponseEntity<OrderDto> update(@PathVariable int orderId, @RequestBody OrderDto orderDto)
 		{
-			orderDto.setOrderDelivered(new Date());
-			
 			OrderDto updateOrder = this.orderService.updateOrder(orderDto, orderId);
-			
 			return new ResponseEntity<OrderDto>(updateOrder,HttpStatus.OK);
 		}
 }
