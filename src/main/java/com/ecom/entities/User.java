@@ -1,6 +1,9 @@
 package com.ecom.entities;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,14 +12,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 @Entity
 @Table(name="users")
-public class User {
+public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +31,11 @@ public class User {
 	
 	@Column(nullable = false)
 	private String name;
+	
+	
+	//consider email is user name
+    //important
+    //must be unique that we can identify the user
 	
 	@Column(unique = true)
 	private String email;
@@ -44,6 +56,10 @@ public class User {
 	
 	@OneToOne(mappedBy = "user")
 	private Cart cart;
+	
+	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "users")
+    private Set<Role> roles = new HashSet<>();
+	
 
 	public User(int userId, String name, String email, String password, String about, String address, String gender,
 			String phone, Date createAt, boolean active) {
@@ -89,9 +105,9 @@ public class User {
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
-	}
+//	public String getPassword() {
+//		return password;
+//	}
 
 	public void setPassword(String password) {
 		this.password = password;
@@ -151,6 +167,52 @@ public class User {
 
 	public void setCart(Cart cart) {
 		this.cart = cart;
+	}
+
+	//important method for providing authority
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getPassword() {
+		System.out.println("getting password : getter()");
+		
+		return password;
+	}
+	@Override
+	public String getUsername() {
+		
+		System.out.println("getting username : getter");
+		
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 	
 	
