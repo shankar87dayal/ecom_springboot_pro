@@ -51,6 +51,16 @@ public class GlobalExceptionHandler {
 	}
 
 	
+
+	@ExceptionHandler(BadUserLoginDetailException.class)
+	public ResponseEntity<ApiResonse> handleBadUserLoginDetailException(BadUserLoginDetailException ex) {
+		ApiResonse apiResonse = new ApiResonse(ex.getMessage(), false);
+		return new ResponseEntity<ApiResonse>(apiResonse, HttpStatus.BAD_REQUEST);
+
+	}
+	
+	
+	
 //	@ExceptionHandler(SQLIntegrityConstraintViolationException.class)
 //	public ResponseEntity<Map<String, String>> handleMethodUnique(SQLIntegrityConstraintViolationException ex) {
 //		Map<String, String> map = new HashMap<>();

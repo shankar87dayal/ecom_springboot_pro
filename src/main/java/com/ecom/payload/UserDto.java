@@ -1,6 +1,8 @@
 package com.ecom.payload;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
@@ -10,6 +12,9 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.UniqueElements;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class UserDto {
@@ -42,6 +47,8 @@ public class UserDto {
 	private Date createAt;
 	
 	private boolean active;
+	
+	private Set<RoleDto> roles = new HashSet<>();
 
 	public int getUserId() {
 		return userId;
@@ -67,10 +74,12 @@ public class UserDto {
 		this.email = email;
 	}
 
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
 
+	@JsonProperty
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -121,6 +130,14 @@ public class UserDto {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public Set<RoleDto> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<RoleDto> roles) {
+		this.roles = roles;
 	}
 
 	

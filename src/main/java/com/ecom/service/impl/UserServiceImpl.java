@@ -3,12 +3,15 @@ package com.ecom.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ecom.entities.Role;
 import com.ecom.entities.User;
 import com.ecom.exception.ResourceNotFoundException;
 import com.ecom.payload.UserDto;
+import com.ecom.repo.RoleRepository;
 import com.ecom.repo.UserRepository;
 import com.ecom.service.UserService;
 
@@ -18,13 +21,25 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	
+	@Autowired
+	private RoleRepository roleRepository;
+	
+	
 	@Override
 	public UserDto create(UserDto userDto) {
 		
 		//dto to entity
 		
 		User user = this.toEntity(userDto);
+		
+		Role role = this.roleRepository.findById(7412).get();
+		user.getRoles().add(role);
+		
 		User createdUser = this.userRepository.save(user);
+		
+		//Entity to dto
+		
 		return this.toDto(createdUser);
 	}
 
@@ -51,7 +66,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto update(UserDto userDto, int userId) {
 	
-		User u = this.userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("user not found"+ userId));
+		User u = this.userRepository.findById(userId).orElseThrow(
+				()-> new ResourceNotFoundException("user not found"+ userId));
 		
 		u.setName(userDto.getName());
 		u.setEmail(userDto.getEmail());
@@ -76,47 +92,19 @@ public class UserServiceImpl implements UserService {
 		
 	}
 	
+	@Autowired
+	private ModelMapper mopper1;
 	
 	
-	public UserDto toDto(User u) {
+	public UserDto toDto(User user) {
 		
-		UserDto dto = new UserDto();
-		
-		dto.setUserId(u.getUserId());
-		dto.setName(u.getName());
-		dto.setEmail(u.getEmail());
-		dto.setPassword(u.getPassword());
-		dto.setAbout(u.getAbout());
-		dto.setAddress(u.getAddress());
-		dto.setGender(u.getGender());
-		dto.setCreateAt(u.getCreateAt());
-		dto.setPhone(u.getPhone());
-		dto.setActive(u.isActive());
-	
-		
-		
-		return dto;
+		return this.mopper1.map(user, UserDto.class);
 	}
 	
 	
-	public User toEntity(UserDto t)
+	public User toEntity(UserDto dto)
 	{
-		User u =new User();
-		
-		u.setUserId(t.getUserId());
-		u.setName(t.getName());
-		u.setEmail(t.getEmail());
-		u.setPassword(t.getPassword());
-		u.setAbout(t.getAbout());
-		u.setAddress(t.getAddress());
-		u.setActive(t.isActive());
-		u.setGender(t.getGender());
-		u.setCreateAt(t.getCreateAt());
-		u.setPhone(t.getPhone());
-		
-		
-		
-		return u;
+		return this.mopper1.map(dto, User.class);
 	}
 	
 }

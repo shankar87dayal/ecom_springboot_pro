@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class ProductController {
 	private ProductService productService;
 	
 	//For creating new Product
+		@PreAuthorize("hasRole('ADMIN')")
 		@PostMapping("/categories/{categoryId}/products")
 		public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto, @PathVariable("categoryId") int categoryId) {
 			ProductDto createdProduct = productService.createProduct(productDto, categoryId);
@@ -95,6 +97,7 @@ public class ProductController {
 
 		
 		// update
+			@PreAuthorize("hasRole('ADMIN')")
 			@PutMapping("/products/{productId}")
 			public ResponseEntity<ProductDto> updateProduct(@PathVariable int productId, @RequestBody ProductDto np) {
 				ProductDto updatedProduct = productService.updateProduct(np, productId);
@@ -111,7 +114,7 @@ public class ProductController {
 		 * @param productId
 		 * @return  "product is successfully Deleted !!"
 		 */
-		
+		@PreAuthorize("hasRole('ADMIN')")
 		@DeleteMapping("/products/{productId}")
 		public ResponseEntity<ApiResonse>  deleteProduct(@PathVariable  int productId) {
 			this.productService.deleteProduct(productId);

@@ -57,7 +57,7 @@ public class User implements UserDetails {
 	@OneToOne(mappedBy = "user")
 	private Cart cart;
 	
-	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "users")
+	@ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 	
 
@@ -213,6 +213,14 @@ public class User implements UserDetails {
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 	
 	

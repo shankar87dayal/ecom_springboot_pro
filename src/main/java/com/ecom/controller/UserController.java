@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,6 @@ public class UserController {
 	private PasswordEncoder passwordEncoder;
 	
 	//create user data
-	
 	@PostMapping("/")
 	public ResponseEntity<UserDto> create(@Valid @RequestBody UserDto userDto) {
 	
@@ -48,7 +48,6 @@ public class UserController {
 	}
 	
 	//update user
-	
 	@PutMapping("/{userId}")
 	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody  UserDto userDto, @PathVariable int userId)
 	{
@@ -86,7 +85,6 @@ public class UserController {
 	}
 	
 	//delete user
-	
 	@DeleteMapping("/{userId}")
 	public ResponseEntity<ApiResonse> deleteUser(@PathVariable int userId)
 	{
@@ -94,17 +92,3 @@ public class UserController {
 		return new ResponseEntity<ApiResonse>(new ApiResonse("User is deleted successfully !!", true), HttpStatus.OK);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
