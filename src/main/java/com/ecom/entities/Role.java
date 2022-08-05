@@ -16,12 +16,23 @@ import org.hibernate.annotations.ManyToAny;
 public class Role {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "roles")
 	private Set<User> users =new HashSet<>();
+	
+	
+	public Role(int id, String name, Set<User> users) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.users = users;
+	}
+	public Role() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 	public int getId() {
 		return id;
@@ -41,16 +52,7 @@ public class Role {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
-	public Role(int id, String name, Set<User> users) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.users = users;
-	}
-	public Role() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	
 	
 	
 	

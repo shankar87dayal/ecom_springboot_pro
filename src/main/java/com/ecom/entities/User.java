@@ -60,6 +60,7 @@ public class User implements UserDetails {
 	@ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 	
+	
 
 	public User(int userId, String name, String email, String password, String about, String address, String gender,
 			String phone, Date createAt, boolean active) {

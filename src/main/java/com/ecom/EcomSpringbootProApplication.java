@@ -32,6 +32,7 @@ public class EcomSpringbootProApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
+		
 
 		try {
             Role role1 = new Role();
@@ -46,6 +47,7 @@ public class EcomSpringbootProApplication implements CommandLineRunner{
             role3.setId(9632);
             role3.setName("ROLE_STAFF");
 
+            //java 8 features
 //            List<Role> roles = new ArrayList<>();
 //            roles.add(role1);
 //            roles.add(role2);

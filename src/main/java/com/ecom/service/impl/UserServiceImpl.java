@@ -33,6 +33,7 @@ public class UserServiceImpl implements UserService {
 		
 		User user = this.toEntity(userDto);
 		
+		
 		Role role = this.roleRepository.findById(7412).get();
 		user.getRoles().add(role);
 		
