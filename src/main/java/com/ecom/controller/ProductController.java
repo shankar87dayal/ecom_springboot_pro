@@ -38,7 +38,7 @@ import com.ecom.service.ProductService;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class ProductController {
 
 	@Autowired

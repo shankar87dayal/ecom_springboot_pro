@@ -26,7 +26,7 @@ import com.ecom.service.UserService;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class UserController {
 
 	@Autowired

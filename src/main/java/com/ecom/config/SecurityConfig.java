@@ -19,67 +19,54 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.ecom.security.JwtAuthenticationEntryPoint;
 import com.ecom.security.JwtAuthenticationFilter;
 
+
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
-	
-	  @Autowired
-	    private UserDetailsService userDetailsService;
-	  
-	  @Autowired
-	  private JwtAuthenticationEntryPoint entryPoint;
-	  
-	  @Autowired
-	  private JwtAuthenticationFilter filter;
-	  
-	  public static String [] PUBLIC_URLS = {
-		
-			  "/users/",
-			  "/auth/login",
-			  "/v3/api-docs",
-	            "/v2/api-docs",
-	            "/swagger-resources/**",
-	            "/swagger-ui/**",
-	            "/webjars/**"
-			  
-	  };
-	  
-	  
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@Autowired
+	private UserDetailsService userDetailsService;
+
+	@Autowired
+	private JwtAuthenticationEntryPoint entryPoint;
+
+	@Autowired
+	private JwtAuthenticationFilter filter;
+
+	public static String[] PUBLIC_URLS = {
+
+			"/users/", "/auth/login", "/v3/api-docs", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**",
+			"/webjars/**"
+
+	};
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-		.csrf()
-		.disable()
-		.authorizeHttpRequests()
-		.antMatchers(PUBLIC_URLS)
-		.permitAll()
-		.antMatchers(HttpMethod.GET).permitAll()
-		// .antMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
-		.anyRequest()
-		.authenticated()
-		.and()
-		.exceptionHandling().authenticationEntryPoint(entryPoint)
-		.and()
-		.sessionManagement()
-		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		
-		
+		http.csrf().disable().authorizeHttpRequests().antMatchers(PUBLIC_URLS).permitAll().antMatchers(HttpMethod.GET)
+				.permitAll()
+				// .antMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
+				.anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(entryPoint).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 		http.addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class);
 	}
 
-	//important: configuring database auth
+	// important: configuring database auth
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		
+
 		auth.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
 	}
-	
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		
+
 		return new BCryptPasswordEncoder();
 	}
 
@@ -89,7 +76,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		// TODO Auto-generated method stub
 		return super.authenticationManagerBean();
 	}
-	
 
-	
+	@Bean
+	public FilterRegistrationBean corsFilter() {
+		
+		UrlBasedCorsConfigurationSource source =new UrlBasedCorsConfigurationSource();
+		
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowCredentials(true);
+		configuration.addAllowedOriginPattern("*");
+		configuration.addAllowedHeader("Authorization");
+		configuration.addAllowedHeader("Content-type");
+		configuration.addAllowedHeader("Accept");
+		configuration.addAllowedMethod("POST");
+		configuration.addAllowedMethod("GET");
+		configuration.addAllowedMethod("DELETE");
+		configuration.addAllowedMethod("PUT");
+		configuration.addAllowedMethod("OPTIONS");
+		configuration.setMaxAge(3600L);
+		
+		source.registerCorsConfiguration("/**", configuration);
+		
+	   FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+		
+		bean.setOrder(-110);
+		return bean;
+	}
+
+
 }

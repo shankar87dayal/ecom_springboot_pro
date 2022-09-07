@@ -24,7 +24,7 @@ import com.ecom.security.JwtHelper;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class AuthController {
 
 	@Autowired
