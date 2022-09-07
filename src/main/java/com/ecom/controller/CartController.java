@@ -45,7 +45,7 @@ public class CartController {
 	    }
 	
 	    //remove item from cart
-	    @PostMapping("/{productId}")
+	    @PutMapping("/{productId}")
 	    public ResponseEntity<CartDto> removeProductFromCart(@PathVariable int productId, Principal principal)
 	    {
 	    	CartDto cartDto = this.cartService.removeItem(principal.getName(), productId);
