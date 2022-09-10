@@ -141,4 +141,11 @@ public class ProductServiceImpl implements ProductService {
 		
 	}
 
+	@Override
+	public void searchProduct(int productId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

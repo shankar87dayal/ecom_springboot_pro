@@ -18,5 +18,7 @@ public interface ProductService {
 	public void deleteProduct(int productId);
 
 	public ProductResponse getProductsByCategory(int categoryId,int pageNumber,int pageSize,String sortby, String sortDir);
+	
+	public void searchProduct(int productId);
 
 }

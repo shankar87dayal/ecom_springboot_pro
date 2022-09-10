@@ -19,7 +19,7 @@ public class OrderDto {
 	
 	private Date orderCreated;
 	
-	private double totalAmount;
+	private double orderAmount;
 	
 	private String billingAddress;
 	
@@ -61,17 +61,13 @@ public class OrderDto {
 		this.orderCreated = orderCreated;
 	}
 
-	
 
-	
-	
-
-	public double getTotalAmount() {
-		return totalAmount;
+	public double getOrderAmount() {
+		return orderAmount;
 	}
 
-	public void setTotalAmount(double totalAmount) {
-		this.totalAmount = totalAmount;
+	public void setOrderAmount(double orderAmount) {
+		this.orderAmount = orderAmount;
 	}
 
 	public String getBillingAddress() {

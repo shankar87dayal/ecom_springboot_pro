@@ -1,5 +1,6 @@
 package com.ecom.controller;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -35,8 +36,8 @@ public class OrderController {
 		
 		//create 
 		@PostMapping("/orders")
-		public ResponseEntity<OrderDto> createOrder(@RequestBody OrderRequest request) {
-			OrderDto createOrder = this.orderService.createOrder(request, userName);
+		public ResponseEntity<OrderDto> createOrder(@RequestBody OrderRequest request, Principal principal) {
+			OrderDto createOrder = this.orderService.createOrder(request, principal.getName());
 			
 			return new ResponseEntity<OrderDto>(createOrder, HttpStatus.CREATED);
 		}
@@ -76,6 +77,11 @@ public class OrderController {
 			OrderDto updateOrder = this.orderService.updateOrder(orderDto, orderId);
 			return new ResponseEntity<OrderDto>(updateOrder,HttpStatus.OK);
 		}
+		
+		  @GetMapping("/orders")
+		    public ResponseEntity<List<OrderDto>> getOrders(Principal principal) {
+		        return new ResponseEntity<>(this.orderService.getOrderOfUser(principal.getName()), HttpStatus.OK);
+		    }
 }
 
 

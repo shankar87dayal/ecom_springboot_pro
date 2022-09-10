@@ -49,10 +49,12 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public OrderDto createOrder(OrderRequest request, String username) {
 		
+		
+		User user = this.userRepository.findByEmail(username).orElseThrow(ResourceNotFoundException::new);
+		
 		int cartId = request.getCartId();
 		String address = request.getAddress();
 		
-		User user = this.userRepository.findByEmail(username).orElseThrow(ResourceNotFoundException::new);
 		
 		Cart cart = this.cartRepository.findById(cartId).orElseThrow(ResourceNotFoundException::new);
 		
@@ -72,7 +74,13 @@ public class OrderServiceImpl implements OrderService{
 			orderItem.setOrder(order);
 			totalOrderPrice.set(totalOrderPrice.get()+ orderItem.getTotalProductPrice());
 			
-			
+			//
+            int productId = orderItem.getProduct().getProductId();
+            // product:- fetch
+
+            // update the product quantity
+
+            // save the product
 			
 			
 			return orderItem;
@@ -82,7 +90,7 @@ public class OrderServiceImpl implements OrderService{
 		order.setItems(orderItems);
 		order.setBillingAddress(address);
 		order.setPaymentStatus("NOT PAID");
-		order.setTotalAmount(totalOrderPrice.get());
+		order.setOrderAmount(totalOrderPrice.get());
 		order.setOrderCreated(new Date());
 		order.setOrderDelivered(null);
 		order.setOrderStatus("CREATED");
@@ -161,5 +169,12 @@ public class OrderServiceImpl implements OrderService{
 		
 		return this.modelMapper.map(order, OrderDto.class);
 	}
+
+	@Override
+    public List<OrderDto> getOrderOfUser(String username) {
+        User user = this.userRepository.findByEmail(username).orElseThrow(() -> new ResourceNotFoundException("User not found with given user"));
+        List<Order> ordersOfUser = this.orderRepository.findByUser(user);
+        return ordersOfUser.stream().map(order -> this.modelMapper.map(order, OrderDto.class)).collect(Collectors.toList());
+    }
 
 }

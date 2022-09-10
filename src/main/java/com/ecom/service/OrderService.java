@@ -24,4 +24,6 @@ public interface OrderService {
 	//get single order
 	
 	OrderDto get(int orderId);
+	
+	List<OrderDto> getOrderOfUser(String username);
 }
