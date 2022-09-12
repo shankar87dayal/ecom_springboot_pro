@@ -25,7 +25,7 @@ import com.ecom.payload.OrderResponse;
 import com.ecom.service.OrderService;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/orders")
 public class OrderController {
 	
 	//after authentication the user is dynamic
@@ -35,15 +35,17 @@ public class OrderController {
 		private OrderService orderService;
 		
 		//create 
-		@PostMapping("/orders")
+		@PostMapping("/create")
 		public ResponseEntity<OrderDto> createOrder(@RequestBody OrderRequest request, Principal principal) {
-			OrderDto createOrder = this.orderService.createOrder(request, principal.getName());
 			
-			return new ResponseEntity<OrderDto>(createOrder, HttpStatus.CREATED);
-		}
-
+			OrderDto createOrder = this.orderService.createOrder(request, principal.getName());
+	        return new ResponseEntity<OrderDto>(createOrder, HttpStatus.CREATED);
+			
+	    }
+			
+		
 		//getall
-		@GetMapping("/orders")
+		@GetMapping("/getAll")
 		public ResponseEntity<OrderResponse> get(
 				@RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER_STRING, required = false) int pageNumber,
 				@RequestParam(value = "pageSize", defaultValue =AppConstants.PAGE_SIZE_STRING, required = false) int pageSize,
@@ -56,14 +58,14 @@ public class OrderController {
 		}
 		
 		//get single 
-		@GetMapping("/orders/{orderId}")
+		@GetMapping("/{orderId}")
 		public ResponseEntity<OrderDto> get(@PathVariable int orderId)
 		{
 			OrderDto orderDto = this.orderService.get(orderId);
 			return new ResponseEntity<OrderDto>(orderDto,HttpStatus.OK);
 		}
 		
-		@DeleteMapping("/orders/{orderId}")
+		@DeleteMapping("/{orderId}")
 		public ResponseEntity<ApiResonse> delete(@PathVariable int orderId)
 		{
 			this.orderService.deleteOrder(orderId);
@@ -71,17 +73,20 @@ public class OrderController {
 		}
 		
 		//update order
-		@PutMapping("/orders/{orderId}")
+		@PutMapping("/update/{orderId}")
 		public ResponseEntity<OrderDto> update(@PathVariable int orderId, @RequestBody OrderDto orderDto)
 		{
 			OrderDto updateOrder = this.orderService.updateOrder(orderDto, orderId);
 			return new ResponseEntity<OrderDto>(updateOrder,HttpStatus.OK);
 		}
 		
-		  @GetMapping("/orders")
+		  @GetMapping("/getOrder")
 		    public ResponseEntity<List<OrderDto>> getOrders(Principal principal) {
 		        return new ResponseEntity<>(this.orderService.getOrderOfUser(principal.getName()), HttpStatus.OK);
 		    }
+		
+		
+		
 }
 
 

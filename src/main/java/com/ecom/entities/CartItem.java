@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 @Entity
-public class CartItem {
+public class CartItem implements Comparable<CartItem>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,6 +64,12 @@ public class CartItem {
 
 	public void setCart(Cart cart) {
 		this.cart = cart;
+	}
+
+	@Override
+	public int compareTo(CartItem o) {
+		// TODO Auto-generated method stub
+		return this.getCardItemid()-o.getCardItemid();
 	}
 	
 	

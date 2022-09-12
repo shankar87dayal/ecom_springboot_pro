@@ -2,6 +2,7 @@ package com.ecom.entities;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -27,7 +28,9 @@ public class Cart {
 
 
 	@OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,orphanRemoval = true)
-	private Set<CartItem> items=new HashSet<>();
+	
+	 // @OrderBy(clause = "cardItemid")
+    private Set<CartItem> items = new LinkedHashSet<>();
 	
 	
 

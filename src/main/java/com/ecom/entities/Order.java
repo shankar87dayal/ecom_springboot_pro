@@ -32,7 +32,7 @@ public class Order {
 	
 	private Date orderCreated;
 	
-	private double orderAmount;
+	private double totalAmount;;
 	
 	private String billingAddress;
 	
@@ -78,16 +78,17 @@ public class Order {
 		this.orderCreated = orderCreated;
 	}
 
-	
 
 	
 
-	public double getOrderAmount() {
-		return orderAmount;
+	
+
+	public double getTotalAmount() {
+		return totalAmount;
 	}
 
-	public void setOrderAmount(double orderAmount) {
-		this.orderAmount = orderAmount;
+	public void setTotalAmount(double totalAmount) {
+		this.totalAmount = totalAmount;
 	}
 
 	public String getBillingAddress() {

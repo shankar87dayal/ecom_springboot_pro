@@ -90,7 +90,7 @@ public class OrderServiceImpl implements OrderService{
 		order.setItems(orderItems);
 		order.setBillingAddress(address);
 		order.setPaymentStatus("NOT PAID");
-		order.setOrderAmount(totalOrderPrice.get());
+		order.setTotalAmount(totalOrderPrice.get());
 		order.setOrderCreated(new Date());
 		order.setOrderDelivered(null);
 		order.setOrderStatus("CREATED");

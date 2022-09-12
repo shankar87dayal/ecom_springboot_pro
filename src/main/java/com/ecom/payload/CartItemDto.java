@@ -2,7 +2,7 @@ package com.ecom.payload;
 
 
 
-public class CartItemDto {
+public class CartItemDto implements Comparable<CartItemDto>{
 
 	private int cardItemid;
 
@@ -44,6 +44,12 @@ public class CartItemDto {
 
 	public void setProduct(ProductDto product) {
 		this.product = product;
+	}
+
+	@Override
+	public int compareTo(CartItemDto o) {
+		// TODO Auto-generated method stub
+		return this.getCardItemid()-o.getCardItemid();
 	}
 
 
