@@ -107,20 +107,26 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public OrderDto updateOrder(OrderDto orderDto, int orderId) {
 
-		Order order = this.orderRepository.findById(orderId).orElseThrow(ResourceNotFoundException::new);
-		String orderStatus = orderDto.getOrderStatus();
-		String paymentStatus = orderDto.getPaymentStatus();
-		Date orderDelivered = orderDto.getOrderDelivered();
-		order.setOrderStatus(orderStatus);
-		order.setPaymentStatus(orderDto.getPaymentStatus());
-		if(order.getOrderStatus().equalsIgnoreCase("Delivered")) 
-			order.setOrderDelivered(new Date());
-		else
-			order.setOrderDelivered(null);
-		
-		Order updatedOrder = this.orderRepository.save(order);
-		
-		return this.modelMapper.map(updatedOrder, OrderDto.class);
+//		Order order = this.orderRepository.findById(orderId).orElseThrow(ResourceNotFoundException::new);
+//		String orderStatus = orderDto.getOrderStatus();
+//		String paymentStatus = orderDto.getPaymentStatus();
+//		Date orderDelivered = orderDto.getOrderDelivered();
+//		order.setOrderStatus(orderStatus);
+//		order.setPaymentStatus(orderDto.getPaymentStatus());
+//		if(order.getOrderStatus().equalsIgnoreCase("Delivered")) 
+//			order.setOrderDelivered(new Date());
+//		else
+//			order.setOrderDelivered(null);
+//		
+//		Order updatedOrder = this.orderRepository.save(order);
+//		
+//		return this.modelMapper.map(updatedOrder, OrderDto.class);
+		Order order = this.orderRepository.findById(orderId).get();
+        order.setPaymentStatus(orderDto.getPaymentStatus());
+//        .... update order information
+
+        this.orderRepository.save(order);
+        return this.modelMapper.map(order, OrderDto.class);
 	}
 
 	@Override

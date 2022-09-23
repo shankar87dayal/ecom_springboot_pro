@@ -92,7 +92,7 @@ public class ProductController {
     
 	
 	//For creating new Product
-		@PreAuthorize("hasRole('ADMIN')")
+//		@PreAuthorize("hasRole('ADMIN')")
 		@PostMapping("/categories/{categoryId}/products")
 		public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto, @PathVariable("categoryId") int categoryId) {
 			ProductDto createdProduct = productService.createProduct(productDto, categoryId);
