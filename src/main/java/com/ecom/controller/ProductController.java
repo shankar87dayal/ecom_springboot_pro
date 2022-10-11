@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +64,8 @@ public class ProductController {
     	try {
 			imageName = this.fileUploadService.uploadFile(imagePath, file);
 			product.setImageName(imageName);
+			System.out.println(imagePath);
+			System.out.println(imageName);
 			ProductDto productDto = this.productService.updateProduct(product, productId);
 			
 			return new ResponseEntity<>(productDto, HttpStatus.OK);
@@ -71,8 +74,10 @@ public class ProductController {
 		} catch (IOException e) {
 
 			e.printStackTrace();
-			return new ResponseEntity<>(Map.of("message", "file not uploaded on server !!"),HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+			Map<String, Object> data = new HashMap<>();
+            data.put("message", "File not uploaded on server !!");
+            return new ResponseEntity<>(data, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 		
     }
     
@@ -92,7 +97,7 @@ public class ProductController {
     
 	
 	//For creating new Product
-//		@PreAuthorize("hasRole('ADMIN')")
+		@PreAuthorize("hasRole('ROLE_ADMIN')")
 		@PostMapping("/categories/{categoryId}/products")
 		public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto, @PathVariable("categoryId") int categoryId) {
 			ProductDto createdProduct = productService.createProduct(productDto, categoryId);

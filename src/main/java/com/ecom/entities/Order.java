@@ -32,7 +32,7 @@ public class Order {
 	
 	private Date orderCreated;
 	
-	private double totalAmount;;
+	private double totalAmount;
 	
 	private String billingAddress;
 	
